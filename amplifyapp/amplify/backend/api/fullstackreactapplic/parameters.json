@@ -1,0 +1,5 @@
+{
+  "AppSyncApiName": "fullstackreactapplic",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false
+}
