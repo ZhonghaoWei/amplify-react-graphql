@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
 import { generateClient } from "aws-amplify/api";
+import { API, Storage } from 'aws-amplify/api';
 import {
   Button,
   Flex,
@@ -17,19 +18,7 @@ import {
   deleteTodo as deleteTodoMutation,
 } from "./graphql/mutations";
 
-import { API, Storage } from 'aws-amplify';
-import {
-  Button,
-  Flex,
-  Heading,
-  Image,
-  Text,
-  TextField,
-  View,
-  withAuthenticator,
-} from '@aws-amplify/ui-react';
-const client = generateClient();
-
+constclient = generateClient();
 
 const App = ({ signOut }) => {
   const [notes, setNotes] = useState([]);
@@ -138,7 +127,7 @@ const App = ({ signOut }) => {
 ))}
         </View>
         <Button onClick={signOut}>Sign Out</Button>
-      </View></></>
+      </View></>
   );
 };
 
