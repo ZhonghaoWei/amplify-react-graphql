@@ -1,0 +1,12 @@
+{
+  "resourceName": "s3e7f8c0e4",
+  "policyUUID": "e7f8c0e4",
+  "bucketName": "fullstackreactapplic0b2c1ea1a1a941dcbf8913fa620",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "READ"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

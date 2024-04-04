@@ -17,6 +17,9 @@
       },
       "api": {
         "fullstackreactapplic": {}
+      },
+      "storage": {
+        "s3e7f8c0e4": {}
       }
     }
   }
