@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
-import { generateClient } from "aws-amplify/api";
-import { API, Storage } from 'aws-amplify/api';
+import { generateClient} from 'aws-amplify/api';
 import {
   Button,
   Flex,
@@ -18,28 +17,28 @@ import {
   deleteTodo as deleteTodoMutation,
 } from "./graphql/mutations";
 
-constclient = generateClient();
+const client = generateClient();
 
 const App = ({ signOut }) => {
-  const [notes, setNotes] = useState([]);
+  const [notes, setTodos] = useState([]);
 
   useEffect(() => {
-    fetchNotes();
+    fetchTodos();
   }, []);
 
-  async function fetchNotes() {
-    const apiData = await API.graphql({ query: listNotes });
-    const notesFromAPI = apiData.data.listNotes.items;
+  async function fetchTodos() {
+    const apiData = await client.graphql({ query: listTodos });
+    const notesFromclient = apiData.data.listTodos.items;
     await Promise.all(
-      notesFromAPI.map(async (note) => {
-        if (note.image) {
-          const url = await Storage.get(note.name);
-          note.image = url;
-        }
+      notesFromclient.map(async (note) => {
+        // if (note.image) {
+        //   const url = await Storage.get(note.name);
+        //   note.image = url;
+        // }
         return note;
       })
     );
-    setNotes(notesFromAPI);
+    setTodos(notesFromclient);
   }
 
   async function createTodo(event) {
@@ -51,20 +50,20 @@ const App = ({ signOut }) => {
       description: form.get("description"),
       image: image.name,
     };
-    if (!!data.image) await Storage.put(data.name, image);
-    await API.graphql({
+    // if (!!data.image) await Storage.put(data.name, image);
+    await client.graphql({
       query: createTodoMutation,
       variables: { input: data },
     });
-    fetchNotes();
+    fetchTodos();
     event.target.reset();
   }
   
   async function deleteTodo({ id, name }) {
-    const newNotes = notes.filter((note) => note.id !== id);
-    setNotes(newNotes);
-    await Storage.remove(name);
-    await API.graphql({
+    const newTodos = notes.filter((note) => note.id !== id);
+    setTodos(newTodos);
+    // await Storage.remove(name);
+    await client.graphql({
       query: deleteTodoMutation,
       variables: { input: { id } },
     });
@@ -78,7 +77,7 @@ const App = ({ signOut }) => {
       as="input"
       type="file"
       style={{ alignSelf: "end" }} /><View className="App">
-        <Heading level={1}>My Notes App</Heading>
+        <Heading level={1}>My Todos App</Heading>
         <View as="form" margin="3rem 0" onSubmit={createTodo}>
           <Flex direction="row" justifyContent="center">
             <TextField
@@ -100,7 +99,7 @@ const App = ({ signOut }) => {
             </Button>
           </Flex>
         </View>
-        <Heading level={2}>Current Notes</Heading>
+        <Heading level={2}>Current Todos</Heading>
         <View margin="3rem 0">
         {notes.map((note) => (
   <Flex
@@ -113,16 +112,16 @@ const App = ({ signOut }) => {
       {note.name}
     </Text>
     <Text as="span">{note.description}</Text>
-    {note.image && (
+    {/* {note.image && (
       <Image
         src={note.image}
         alt={`visual aid for ${notes.name}`}
         style={{ width: 400 }}
       />
-    )}
-    <Button variation="link" onClick={() => deleteNote(note)}>
+    )} */}
+    {/* <Button variation="link" onClick={() => deleteNote(note)}>
       Delete note
-    </Button>
+    </Button> */}
   </Flex>
 ))}
         </View>
